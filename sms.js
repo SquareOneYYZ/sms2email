@@ -33,13 +33,21 @@ const sendEmail = async (event) => {
 		// create reusable transporter object using the default SMTP transport
 		// In order to use Gmail, you should create a new account solely for this Application
 		// After Creation, you will need to go to https://myaccount.google.com/lesssecureapps and set to YES
-		let transporter = nodemailer.createTransport({
-			service: "gmail",
+		let transporter = nodemailer.createTransport({    
+			host: "smtp.office365.com", // hostname
+			secureConnection: false, // TLS requires secureConnection to be false
+			port: 587, // port for secure SMTP
 			auth: {
 				user: config.SMTP_USER,
 				pass: config.SMTP_PASS,
 			},
+			tls: {
+				ciphers:'SSLv3'
+			}
+		
 		});
+
+	
 
 		// send mail with defined transport object
 		let info = await transporter.sendMail({
